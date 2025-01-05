@@ -15,11 +15,11 @@ args = parser.parse_args()
 source = Path(args.source)
 output = Path(args.output)
 
-async def grabs_folder(path: Path):
+async def read_folder(path: Path):
     try:
         for el in path.iterdir():
             if el.is_dir():
-                await grabs_folder(el)
+                await read_folder(el)
             else:
                 await copy_file(el)
     except Exception as e:
@@ -40,4 +40,4 @@ if __name__ == "__main__":
     message_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=logging.INFO, format=message_format, datefmt="%H:%M:%S")
 
-    asyncio.run(grabs_folder(source))
+    asyncio.run(read_folder(source))
